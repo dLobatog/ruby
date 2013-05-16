@@ -35,10 +35,14 @@ VALUE rb_eMathDomainError;
 
 /*
  *  call-seq:
- *     Math.atan2(y, x)  -> float
+ *     Math.atan2(Numeric : y, Numeric : x)  -> Float
  *
- *  Computes the arc tangent given <i>y</i> and <i>x</i>. Returns
- *  -PI..PI.
+ *  Computes the arc tangent given <i>y</i> and <i>x</i>.
+ *  Returns a Float in the range -π..π.
+ *
+ *  Domain: (−∞, ∞)
+ *
+ *  Codomain: [-π, π]
  *
  *    Math.atan2(-0.0, -1.0) #=> -3.141592653589793
  *    Math.atan2(-1.0, -1.0) #=> -2.356194490192345
@@ -77,10 +81,17 @@ math_atan2(VALUE obj, VALUE y, VALUE x)
 
 /*
  *  call-seq:
- *     Math.cos(x)    -> float
+ *     Math.cos(Numeric : x)    -> Float
  *
- *  Computes the cosine of <i>x</i> (expressed in radians). Returns
- *  -1..1.
+ *  Computes the cosine of <i>x</i> (expressed in radians).
+ *  Returns a Float in the range -1.0..1.0.
+ *
+ *  Domain: (−∞, ∞)
+ *
+ *  Codomain: [-1, 1]
+ *
+ *    Math.cos(Math::PI) #=> -1.0
+ *
  */
 
 static VALUE
@@ -92,41 +103,61 @@ math_cos(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.sin(x)    -> float
+ *     Math.sin(Numeric : x)    -> Float
  *
- *  Computes the sine of <i>x</i> (expressed in radians). Returns
- *  -1..1.
+ *  Computes the cosine of <i>x</i> (expressed in radians).
+ *  Returns a Float in the range -1.0..1.0.
+ *
+ *  Domain: (−∞, ∞)
+ *
+ *  Codomain: [-1, 1]
+ *
+ *    Math.sin(Math::PI/2) #=> 1.0
+ *
  */
 
 static VALUE
 math_sin(VALUE obj, VALUE x)
 {
     Need_Float(x);
-
     return DBL2NUM(sin(RFLOAT_VALUE(x)));
 }
 
 
 /*
  *  call-seq:
- *     Math.tan(x)    -> float
+ *     Math.tan(Numeric : x)    -> Float
  *
- *  Returns the tangent of <i>x</i> (expressed in radians).
+ *  Computes the tangent of <i>x</i> (expressed in radians).
+ *  Returns a Float in the range -1.0..1.0.
+ *
+ *  Domain: n * (-π/2, π/2)
+ *
+ *  Codomain: (−∞, ∞)
+ *
+ *    Math.tan(5 * (Math::PI/2)) #=> 3266247870639074.0
+ *
  */
 
 static VALUE
 math_tan(VALUE obj, VALUE x)
 {
     Need_Float(x);
-
     return DBL2NUM(tan(RFLOAT_VALUE(x)));
 }
 
 /*
  *  call-seq:
- *     Math.acos(x)    -> float
+ *     Math.acos(Numeric : x)    -> Float
  *
- *  Computes the arc cosine of <i>x</i>. Returns 0..PI.
+ *  Computes the arc cosine of <i>x</i>. Returns 0..π.
+ *
+ *  Domain: [-1, 1]
+ *
+ *  Codomain: [0, π]
+ *
+ *    Math.acos(0) == Math::PI/2  #=> true
+ *
  */
 
 static VALUE
@@ -144,9 +175,15 @@ math_acos(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.asin(x)    -> float
+ *     Math.asin(Numeric : x)    -> Float
  *
- *  Computes the arc sine of <i>x</i>. Returns -{PI/2} .. {PI/2}.
+ *  Computes the arc sine of <i>x</i>. Returns -π/2..π/2.
+ *
+ *  Domain: [-1, -1]
+ *
+ *  Codomain: [-π/2, π/2]
+ *
+ *    Math.asin(1) == Math::PI/2  #=> true
  */
 
 static VALUE
@@ -164,9 +201,15 @@ math_asin(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.atan(x)    -> float
+ *     Math.atan(Numeric : x)    -> Float
  *
- *  Computes the arc tangent of <i>x</i>. Returns -{PI/2} .. {PI/2}.
+ *  Computes the arc tangent of <i>x</i>. Returns -π/2..π/2.
+ *
+ *  Domain: (−∞, ∞)
+ *
+ *  Codomain: (-π/2, π/2)
+ *
+ *    Math.atan(0) #=> 0.0
  */
 
 static VALUE
@@ -186,16 +229,22 @@ cosh(double x)
 
 /*
  *  call-seq:
- *     Math.cosh(x)    -> float
+ *     Math.cosh(Numeric : x)    -> Float
  *
  *  Computes the hyperbolic cosine of <i>x</i> (expressed in radians).
+ *
+ *  Domain: (−∞, ∞)
+ *
+ *  Codomain: [1, ∞)
+ *
+ *    Math.cosh(0) #=> 1.0
+ *
  */
 
 static VALUE
 math_cosh(VALUE obj, VALUE x)
 {
     Need_Float(x);
-
     return DBL2NUM(cosh(RFLOAT_VALUE(x)));
 }
 
@@ -209,10 +258,16 @@ sinh(double x)
 
 /*
  *  call-seq:
- *     Math.sinh(x)    -> float
+ *     Math.sinh(Numeric : x)    -> Float
  *
- *  Computes the hyperbolic sine of <i>x</i> (expressed in
- *  radians).
+ *  Computes the hyperbolic sine of <i>x</i> (expressed in radians).
+ *
+ *  Domain: (−∞, ∞)
+ *
+ *  Codomain: (−∞, ∞)
+ *
+ *    Math.sinh(0) #=> 0.0
+ *
  */
 
 static VALUE
@@ -232,10 +287,16 @@ tanh(double x)
 
 /*
  *  call-seq:
- *     Math.tanh()    -> float
+ *     Math.tanh(Numeric : x)    -> Float
  *
- *  Computes the hyperbolic tangent of <i>x</i> (expressed in
- *  radians).
+ *  Computes the hyperbolic tangent of <i>x</i> (expressed in radians).
+ *
+ *  Domain: (−∞, ∞)
+ *
+ *  Codomain: (−1, 1)
+ *
+ *    Math.tanh(0) #=> 0.0
+ *
  */
 
 static VALUE
@@ -247,9 +308,16 @@ math_tanh(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.acosh(x)    -> float
+ *     Math.acosh(Numeric : x)    -> Float
  *
  *  Computes the inverse hyperbolic cosine of <i>x</i>.
+ *
+ *  Domain: [1, ∞)
+ *
+ *  Codomain: [0, ∞)
+ *
+ *    Math.acosh(1) #=> 0.0
+ *
  */
 
 static VALUE
@@ -267,9 +335,16 @@ math_acosh(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.asinh(x)    -> float
+ *     Math.asinh(Numeric : x)    -> Float
  *
  *  Computes the inverse hyperbolic sine of <i>x</i>.
+ *
+ *  Domain: (∞, ∞)
+ *
+ *  Codomain: (∞, ∞)
+ *
+ *    Math.asinh(1) #=> 0.881373587019543
+ *
  */
 
 static VALUE
@@ -281,9 +356,16 @@ math_asinh(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.atanh(x)    -> float
+ *     Math.atanh(Numeric : x)    -> Float
  *
  *  Computes the inverse hyperbolic tangent of <i>x</i>.
+ *
+ *  Domain: (-1, 1)
+ *
+ *  Codomain: (∞, ∞)
+ *
+ *   Math.atanh(1) #=> Infinity
+ *
  */
 
 static VALUE
@@ -304,9 +386,13 @@ math_atanh(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.exp(x)    -> float
+ *     Math.exp(Numeric : x)    -> Float
  *
  *  Returns e**x.
+ *
+ *  Domain: (∞, ∞)
+ *
+ *  Codomain: (0, ∞)
  *
  *    Math.exp(0)       #=> 1.0
  *    Math.exp(1)       #=> 2.718281828459045
@@ -318,6 +404,7 @@ static VALUE
 math_exp(VALUE obj, VALUE x)
 {
     Need_Float(x);
+    l
     return DBL2NUM(exp(RFLOAT_VALUE(x)));
 }
 
@@ -332,12 +419,16 @@ math_exp(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.log(numeric)    -> float
- *     Math.log(num,base)   -> float
+ *     Math.log(Numeric : x)    -> Float
+ *     Math.log(Numeric : num, Numeric : base)   -> Float
  *
- *  Returns the natural logarithm of <i>numeric</i>.
+ *  Returns the natural logarithm of <i>x</i>.
  *  If additional second argument is given, it will be the base
  *  of logarithm.
+ *
+ *  Domain: (0, ∞)
+ *
+ *  Codomain: (∞, ∞)
  *
  *    Math.log(1)          #=> 0.0
  *    Math.log(Math::E)    #=> 1.0
@@ -381,9 +472,13 @@ extern double log2(double);
 
 /*
  *  call-seq:
- *     Math.log2(numeric)    -> float
+ *     Math.log2(Numeric : x)    -> Float
  *
- *  Returns the base 2 logarithm of <i>numeric</i>.
+ *  Returns the base 2 logarithm of <i>x</i>.
+ *
+ *  Domain: (0, ∞)
+ *
+ *  Codomain: (∞, ∞)
  *
  *    Math.log2(1)      #=> 0.0
  *    Math.log2(2)      #=> 1.0
@@ -409,9 +504,13 @@ math_log2(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.log10(numeric)    -> float
+ *     Math.log10(Numeric : x)    -> Float
  *
- *  Returns the base 10 logarithm of <i>numeric</i>.
+ *  Returns the base 10 logarithm of <i>x</i>.
+ *
+ *  Domain: (0, ∞)
+ *
+ *  Codomain: (∞, ∞)
  *
  *    Math.log10(1)       #=> 0.0
  *    Math.log10(10)      #=> 1.0
@@ -436,26 +535,28 @@ math_log10(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.sqrt(numeric)    -> float
+ *     Math.sqrt(Numeric : x)    -> Float
  *
- *  Returns the non-negative square root of <i>numeric</i>.
+ *  Returns the non-negative square root of <i>x</i>.
+ *
+ *  Domain: [0, ∞)
+ *
+ *  Codomain:[0, ∞)
  *
  *    0.upto(10) {|x|
  *      p [x, Math.sqrt(x), Math.sqrt(x)**2]
  *    }
- *    #=>
- *    [0, 0.0, 0.0]
- *    [1, 1.0, 1.0]
- *    [2, 1.4142135623731, 2.0]
- *    [3, 1.73205080756888, 3.0]
- *    [4, 2.0, 4.0]
- *    [5, 2.23606797749979, 5.0]
- *    [6, 2.44948974278318, 6.0]
- *    [7, 2.64575131106459, 7.0]
- *    [8, 2.82842712474619, 8.0]
- *    [9, 3.0, 9.0]
- *    [10, 3.16227766016838, 10.0]
- *
+ *    #=> [0, 0.0, 0.0]
+ *    #   [1, 1.0, 1.0]
+ *    #   [2, 1.4142135623731, 2.0]
+ *    #   [3, 1.73205080756888, 3.0]
+ *    #   [4, 2.0, 4.0]
+ *    #   [5, 2.23606797749979, 5.0]
+ *    #   [6, 2.44948974278318, 6.0]
+ *    #   [7, 2.64575131106459, 7.0]
+ *    #   [8, 2.82842712474619, 8.0]
+ *    #   [9, 3.0, 9.0]
+ *    #   [10, 3.16227766016838, 10.0]
  */
 
 static VALUE
@@ -474,33 +575,36 @@ math_sqrt(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.cbrt(numeric)    -> float
+ *     Math.cbrt(Numeric : x)    -> Float
  *
- *  Returns the cube root of <i>numeric</i>.
+ *  Returns the cube root of <i>x</i>.
+ *
+ *  Domain: [0, ∞)
+ *
+ *  Codomain:[0, ∞)
  *
  *    -9.upto(9) {|x|
  *      p [x, Math.cbrt(x), Math.cbrt(x)**3]
  *    }
- *    #=>
- *    [-9, -2.0800838230519, -9.0]
- *    [-8, -2.0, -8.0]
- *    [-7, -1.91293118277239, -7.0]
- *    [-6, -1.81712059283214, -6.0]
- *    [-5, -1.7099759466767, -5.0]
- *    [-4, -1.5874010519682, -4.0]
- *    [-3, -1.44224957030741, -3.0]
- *    [-2, -1.25992104989487, -2.0]
- *    [-1, -1.0, -1.0]
- *    [0, 0.0, 0.0]
- *    [1, 1.0, 1.0]
- *    [2, 1.25992104989487, 2.0]
- *    [3, 1.44224957030741, 3.0]
- *    [4, 1.5874010519682, 4.0]
- *    [5, 1.7099759466767, 5.0]
- *    [6, 1.81712059283214, 6.0]
- *    [7, 1.91293118277239, 7.0]
- *    [8, 2.0, 8.0]
- *    [9, 2.0800838230519, 9.0]
+ *    #=> [-9, -2.0800838230519, -9.0]
+ *    #   [-8, -2.0, -8.0]
+ *    #   [-7, -1.91293118277239, -7.0]
+ *    #   [-6, -1.81712059283214, -6.0]
+ *    #   [-5, -1.7099759466767, -5.0]
+ *    #   [-4, -1.5874010519682, -4.0]
+ *    #   [-3, -1.44224957030741, -3.0]
+ *    #   [-2, -1.25992104989487, -2.0]
+ *    #   [-1, -1.0, -1.0]
+ *    #   [0, 0.0, 0.0]
+ *    #   [1, 1.0, 1.0]
+ *    #   [2, 1.25992104989487, 2.0]
+ *    #   [3, 1.44224957030741, 3.0]
+ *    #   [4, 1.5874010519682, 4.0]
+ *    #   [5, 1.7099759466767, 5.0]
+ *    #   [6, 1.81712059283214, 6.0]
+ *    #   [7, 1.91293118277239, 7.0]
+ *    #   [8, 2.0, 8.0]
+ *    #   [9, 2.0800838230519, 9.0]
  *
  */
 
@@ -513,11 +617,11 @@ math_cbrt(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.frexp(numeric)    -> [ fraction, exponent ]
+ *     Math.frexp(Numeric : x)    -> [ Float : fraction, Fixnum : exponent ]
  *
  *  Returns a two-element array containing the normalized fraction (a
  *  <code>Float</code>) and exponent (a <code>Fixnum</code>) of
- *  <i>numeric</i>.
+ *  <i>x</i>.
  *
  *     fraction, exponent = Math.frexp(1234)   #=> [0.6025390625, 11]
  *     fraction * 2**exponent                  #=> 1234.0
@@ -537,9 +641,9 @@ math_frexp(VALUE obj, VALUE x)
 
 /*
  *  call-seq:
- *     Math.ldexp(flt, int) -> float
+ *     Math.ldexp(Float : fraction, Fixnum exponent) -> float
  *
- *  Returns the value of <i>flt</i>*(2**<i>int</i>).
+ *  Returns the value of <i>fraction</i>*(2**<i>exponent</i>).
  *
  *     fraction, exponent = Math.frexp(1234)
  *     Math.ldexp(fraction, exponent)   #=> 1234.0
@@ -554,7 +658,7 @@ math_ldexp(VALUE obj, VALUE x, VALUE n)
 
 /*
  *  call-seq:
- *     Math.hypot(x, y)    -> float
+ *     Math.hypot(Numeric : x, Numeric : y)    -> Float
  *
  *  Returns sqrt(x**2 + y**2), the hypotenuse of a right-angled triangle
  *  with sides <i>x</i> and <i>y</i>.
@@ -571,9 +675,16 @@ math_hypot(VALUE obj, VALUE x, VALUE y)
 
 /*
  * call-seq:
- *    Math.erf(x)  -> float
+ *    Math.erf(Numeric : x)  -> Float
  *
- *  Calculates the error function of x.
+ *  Calculates the error function of <i>x</i>.
+ *
+ *  Domain: (∞, ∞)
+ *
+ *  Codomain: (-1, 1)
+ *
+ *    Math.erf(0) #=> 0.0
+ *
  */
 
 static VALUE
@@ -585,9 +696,16 @@ math_erf(VALUE obj, VALUE x)
 
 /*
  * call-seq:
- *    Math.erfc(x)  -> float
+ *    Math.erfc(Numeric : x)  -> Float
  *
  *  Calculates the complementary error function of x.
+ *
+ *  Domain: (∞, ∞)
+ *
+ *  Codomain: (0, 2)
+ *
+ *    Math.erfc(0) #=> 1.0
+ *
  */
 
 static VALUE
@@ -599,7 +717,7 @@ math_erfc(VALUE obj, VALUE x)
 
 /*
  * call-seq:
- *    Math.gamma(x)  -> float
+ *    Math.gamma(Numeric : x)  -> Float
  *
  *  Calculates the gamma function of x.
  *
@@ -688,14 +806,17 @@ math_gamma(VALUE obj, VALUE x)
 
 /*
  * call-seq:
- *    Math.lgamma(x)  -> [float, -1 or 1]
+ *    Math.lgamma(Numeric : x)  -> [Float : float, -1 or 1]
  *
- *  Calculates the logarithmic gamma of x and
- *  the sign of gamma of x.
+ *  Calculates the logarithmic gamma of <i>x</i> and
+ *  the sign of gamma of <i>x</i>.
  *
  *  Math.lgamma(x) is same as
  *   [Math.log(Math.gamma(x).abs), Math.gamma(x) < 0 ? -1 : 1]
  *  but avoid overflow by Math.gamma(x) for large x.
+ *
+ *    Math.lgamma(0) #=> [Infinity, 1]
+ *
  */
 
 static VALUE
@@ -767,10 +888,12 @@ exp1(sqrt)
 /*
  *  Document-class: Math
  *
- *  The <code>Math</code> module contains module functions for basic
+ *  The Math module contains module functions for basic
  *  trigonometric and transcendental functions. See class
- *  <code>Float</code> for a list of constants that
+ *  Float for a list of constants that
  *  define Ruby's floating point accuracy.
+ *
+ *  Domains and codomains are given only for real (not complex) numbers.
  */
 
 
@@ -781,12 +904,14 @@ Init_Math(void)
     rb_eMathDomainError = rb_define_class_under(rb_mMath, "DomainError", rb_eStandardError);
 
 #ifdef M_PI
+    /*  Definition of the mathematical constant PI (π) as a Float number. */
     rb_define_const(rb_mMath, "PI", DBL2NUM(M_PI));
 #else
     rb_define_const(rb_mMath, "PI", DBL2NUM(atan(1.0)*4.0));
 #endif
 
 #ifdef M_E
+    /*  Definition of the mathematical constant E (e) as a Float number. */
     rb_define_const(rb_mMath, "E", DBL2NUM(M_E));
 #else
     rb_define_const(rb_mMath, "E", DBL2NUM(exp(1.0)));
